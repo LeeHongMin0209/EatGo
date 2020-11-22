@@ -1,5 +1,6 @@
 package kr.co.hongmin.eatgo.interfaces;
 
+import kr.co.hongmin.eatgo.application.RestaurantService;
 import kr.co.hongmin.eatgo.domain.MenuItemRepository;
 import kr.co.hongmin.eatgo.domain.MenuItemRepositoryImpl;
 import kr.co.hongmin.eatgo.domain.RestaurantRepository;
@@ -24,6 +25,9 @@ class RestaurantControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @SpyBean(RestaurantService.class)
+    private  RestaurantService restaurantService;
 
     @SpyBean(RestaurantRepositoryImpl.class )
     private RestaurantRepository restaurantRepository;
