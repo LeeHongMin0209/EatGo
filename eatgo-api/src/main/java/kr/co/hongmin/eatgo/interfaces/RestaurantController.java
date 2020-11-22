@@ -1,5 +1,7 @@
 package kr.co.hongmin.eatgo.interfaces;
 
+import kr.co.hongmin.eatgo.domain.MenuItem;
+import kr.co.hongmin.eatgo.domain.MenuItemRepository;
 import kr.co.hongmin.eatgo.domain.Restaurant;
 import kr.co.hongmin.eatgo.domain.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,14 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantRepository restaurantrepository;
+
+    @Autowired
+    private MenuItemRepository menuItemRepository;
 
     @GetMapping("/restaurants")
     public List<Restaurant> list(){
-        List<Restaurant> restaurants = repository.findAll();
+        List<Restaurant> restaurants = restaurantrepository.findAll();
 
         return restaurants;
     }
@@ -25,7 +30,13 @@ public class RestaurantController {
     @GetMapping("/restaurants/{id}")
     //파라미터 삽입
     public Restaurant detail(@PathVariable("id") Long id){
-        Restaurant restaurant = repository.findById(id);
+      
+
+        Restaurant restaurant = restaurantrepository.findById(id);
+
+        List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
+        restaurant.setMenuItems(menuItems);
+        restaurant.addMenuItem(new MenuItem("Kimchi"));
 
         return restaurant;
     }

@@ -1,5 +1,7 @@
 package kr.co.hongmin.eatgo.interfaces;
 
+import kr.co.hongmin.eatgo.domain.MenuItemRepository;
+import kr.co.hongmin.eatgo.domain.MenuItemRepositoryImpl;
 import kr.co.hongmin.eatgo.domain.RestaurantRepository;
 import kr.co.hongmin.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,11 @@ class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean(RestaurantRepositoryImpl.class)
+    @SpyBean(RestaurantRepositoryImpl.class )
     private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception{
@@ -46,7 +51,11 @@ class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"Bob zip\"")
+                ))
+                .andExpect(content().string(
+                        containsString("Kimchi")
                 ));
+
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk()).andExpect(content().string(
                 containsString("\"id\":2020")
