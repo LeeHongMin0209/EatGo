@@ -5,10 +5,14 @@ import java.util.List;
 
 public class Restaurant {
 
-    private final String name;
-    private final Long id;
-    private final String address;
+    private String name;
+    private Long id;
+    private String address;
     private List<MenuItem> menuItems = new ArrayList<>();
+
+    public Restaurant(String name) {
+
+    }
 
     public Restaurant(Long id, String name, String address) {
         this.name = name;
