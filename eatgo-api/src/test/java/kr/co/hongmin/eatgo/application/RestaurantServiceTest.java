@@ -14,6 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 class RestaurantServiceTest {
@@ -50,6 +51,7 @@ class RestaurantServiceTest {
         given(restaurantRepository.findAll()).willReturn(restaurants);
 
         given(restaurantRepository.findById(1004L)).willReturn(restaurant);
+
     }
 
     @Test
@@ -69,6 +71,17 @@ class RestaurantServiceTest {
         MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertThat(menuItem.getName(), is("Kimchi"));
 
+    }
+
+    @Test
+    public void addRestaurant(){
+        Restaurant saved = new Restaurant(1234L,"BeRyong","Busan");
+
+        given(restaurantRepository.save(any())).willReturn(saved);
+
+        Restaurant restaurant = restaurantService.addRestaurants(new Restaurant("BeRyong", "Busan"));
+
+        assertThat(restaurant.getId(),is(1234L));
     }
 
 }
