@@ -1,13 +1,22 @@
 package kr.co.hongmin.eatgo.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
     private String name;
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String address;
+
+    @Transient
     private List<MenuItem> menuItems = new ArrayList<>();
 
     public Restaurant() {
