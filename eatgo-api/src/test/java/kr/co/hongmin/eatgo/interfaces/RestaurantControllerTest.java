@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,6 +67,12 @@ class RestaurantControllerTest {
                 .name("Kimchi")
                 .build();
         restaurant1.setMenuItems(Arrays.asList(menuItem));
+        Review review = Review.builder()
+                .name("JOKER")
+                .score(5)
+                .description("good")
+                .build();
+        restaurant1.setReviews(Arrays.asList(review));
 
         Restaurant restaurant2 = Restaurant.builder()
                 .id(2020L)
@@ -74,7 +81,6 @@ class RestaurantControllerTest {
                 .build();
 
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
 
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
@@ -86,15 +92,10 @@ class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("Kimchi")
-                ));
-
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(status().isOk()).andExpect(content().string(
-                containsString("\"id\":2020")
-        ))
+                ))
                 .andExpect(content().string(
-                        containsString("\"name\":\"Cyber Food\"")
-                ));
+                containsString("good")
+        ));
     }
 
     @Test
